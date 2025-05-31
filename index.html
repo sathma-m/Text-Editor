@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    
+    <title> Text editor</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    
+    <style>
+      body {
+        font-family: 'Times New Roman';
+        margin:0px;
+        padding:0px;
+        background-color:rgb(238, 240, 242)
+      }
+      #toolbar {background-color: rgb(56, 54, 54);
+      padding:10px 15px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:center;
+      }
+      
+      #toolbar i{color:rgb(231, 239, 245);
+      font-size:20px;
+      padding:6px;
+      cursor : pointer;
+    }
+
+      #toolbar i:hover {
+        background-color:black
+      }
+
+      #toolbar label.toolbar-button {
+        font-size: 20px;
+        
+        border-radius:5px;
+        cursor:pointer;
+        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        display: inline-flex;}
+
+      #toolbar label.toolbar-button:hover{
+        background-color:black;
+        color:black
+      }
+
+      .visually-hidden {
+        position:absolute;
+        width:1px;
+        height:1px;
+        padding:0;
+        margin:-1px;
+        overflow:hidden;
+        clip:rect(0,0,0,0);
+        white-space:nowrap;
+        
+      }
+
+      #editor {
+        width : 90%;
+        min-height:300px;
+        margin:20px auto;
+        padding: 15px;
+        border: 1px solid white;
+        background-color: white;
+        font-size: 16px;
+        line-height: 1.6;
+        outline: none;
+      }
+      
+
+
+    </style>
+    
+  </head>
+
+
+
+  <body>
+    <div id="toolbar">
+     <i class="bi bi-type-bold" id="bold-button" title="Bold"></i>
+     <i class="bi bi-type-italic" id="italic-button" title="Italic"></i>
+     <i class="bi bi-type-underline" id="underline-button" title="Underline" ></i>
+     <label for="colorpicker" class="toolbar-button" title="Text color">
+        <i class="bi bi-eyedropper"></i>
+      </label>
+     
+     <input type="color" id="colorpicker" class="visually-hidden">
+     <i class="bi bi-justify-left" id="align-left-button" title="Justify left"></i>
+     <i class="bi bi-text-center" id="align-center-button" title="center"></i>
+     <i class="bi bi-justify-right" id="align-right-button" title="Justify right"></i>
+     <i class="bi bi-justify" id="align-justify-button" title="Justify"></i>
+     <i class="bi bi-arrow-counterclockwise" id="undo-button" title="undo"></i>
+     <i class="bi bi-arrow-clockwise" id="redo-button" title="redo"></i>
+
+
+    
+    </div>
+
+    <div id="editor" contenteditable="true"> </div>
+      
+
+
+    
+    
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function(){
+        const editor = document.getElementById('editor');
+    
+      function execCmd(command, value= null) {
+         document.execCommand(command, false, value);
+         if (editor) {
+         editor.focus();
+         }
+      }
+
+    const boldButton = document.getElementById('bold-button');
+    if (boldButton) {
+      boldButton.addEventListener('click',() => {
+        execCmd('bold');
+      });
+    }
+
+    const italicButton = document.getElementById('italic-button');
+    if (italicButton){
+      italicButton.addEventListener('click', () => {
+        execCmd ('italic');
+      });
+    }
+
+    const underlineButton = document.getElementById('underline-button');
+    if (underlineButton){
+      underlineButton.addEventListener('click', () => {
+        execCmd ('underline');
+      });
+    }
+
+    const colorPickerInput = document.getElementById('colorpicker');
+    if (colorPickerInput) {
+      colorPickerInput.addEventListener('input',(event)=> {
+        execCmd ('foreColor', event.target.value);
+      });
+    }
+
+    const alignLeftButton = document.getElementById('align-left-button');
+    if (alignLeftButton){
+      alignLeftButton.addEventListener('click', () => {
+        execCmd ('justifyLeft');
+      });
+    }
+
+    const aligncenterButton = document.getElementById('align-center-button');
+    if (aligncenterButton){
+      aligncenterButton.addEventListener('click', () => {
+        execCmd ('justifyCenter');
+      });
+    }
+
+    const alignrightButton = document.getElementById('align-right-button');
+    if (alignrightButton){
+      alignrightButton.addEventListener('click', () => {
+        execCmd ('justifyRight');
+      });
+    }
+
+    const alignjustifyButton = document.getElementById('align-justify-button');
+    if (alignjustifyButton){
+      alignjustifyButton.addEventListener('click', () => {
+        execCmd ('justifyFull');
+      });
+    }
+
+    const undoButton = document.getElementById('undo-button');
+    if (undoButton){
+      undoButton.addEventListener('click', () => {
+        execCmd ('undo');
+      });
+    }
+
+    const redoButton = document.getElementById('redo-button');
+    if (redoButton){
+      redoButton.addEventListener('click', () => {
+        execCmd ('redo');
+      });
+    }
+
+    const toolbarinteractiveelements =document.querySelectorAll('#toolbar i, #toolbar label.toolbar-button');
+    toolbarinteractiveelements.forEach(button => {
+      button.addEventListener('mousedown', (event) =>{ 
+        event.preventDefault();
+
+      });
+      
+    });
+
+    editor.focus();
+    });
+
+
+  
+
+          
+    </script>
+    
+  
+  </body>
+</html>
